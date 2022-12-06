@@ -1,14 +1,20 @@
 const Service = require('egg').Service;
+const sequelize = require('sequelize');
 
 class Group extends Service {
   async list({ offset = 0, limit = 10 }) {
-    return this.ctx.model.Groups.findAndCountAll({
+    return this.ctx.model.Groups.findAll({
       offset,
       limit,
+      where: {
+        group_id: {
+          [sequelize.Op.ne]: null,
+        },
+      },
       order: [
-        [ 'created_at', 'desc' ],
-        [ 'id', 'desc' ],
+        [ 'created_at', 'asc' ],
       ],
+      attributes: [ 'group_id', 'group_name', 'group_face_url', 'group_custom_string', 'group_order' ],
     });
   }
 

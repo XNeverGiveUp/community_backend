@@ -13,27 +13,35 @@ class GroupController extends Controller {
       limit: toInt(ctx.query.limit),
       offset: toInt(ctx.query.offset),
     };
-    ctx.body = await ctx.service.group.list(query);
+    ctx.body = {
+      data: await ctx.service.group.list(query),
+    };
   }
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.group.find(ctx.params.groupId);
+    ctx.body = {
+      data: await ctx.service.group.find(ctx.params.groupId),
+    };
   }
 
   async create() {
     const ctx = this.ctx;
     const group = await ctx.service.group.create(ctx.request.body);
-    ctx.body = group;
+    ctx.body = {
+      data: group,
+    };
     ctx.status = 201;
   }
 
   async update() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.group.update({
-      id: ctx.params.groupId,
-      updates: ctx.request.body,
-    });
+    ctx.body = {
+      data: await ctx.service.group.update({
+        id: ctx.params.groupId,
+        updates: ctx.request.body,
+      }),
+    };
   }
 
   async destroy() {
